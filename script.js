@@ -44,6 +44,9 @@ function createBadgeRow(item) {
   return badgeRow;
 }
 
+const MENU_IMAGE_PLACEHOLDER =
+  "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='100%25' height='100%25' fill='%23e7ddd0'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='%238a7a6f'%3E이미지 준비중%3C/text%3E%3C/svg%3E";
+
 function createMenuImage(item) {
   const image = document.createElement("img");
   image.className = "menu-image";
@@ -51,7 +54,8 @@ function createMenuImage(item) {
   image.alt = item.name;
   image.loading = "lazy";
   image.onerror = () => {
-    image.src = "images/placeholder.svg";
+    image.onerror = null;
+    image.src = MENU_IMAGE_PLACEHOLDER;
   };
   return image;
 }
@@ -98,18 +102,28 @@ function filterMenuByCategory(category) {
   });
 }
 
+function activateCategory(category) {
+  categoryNav.querySelectorAll(".category-btn").forEach((btn) => {
+    btn.classList.toggle("active", btn.dataset.category === category);
+  });
+  filterMenuByCategory(category);
+}
+
 function handleCategoryClick(event) {
   const button = event.target.closest(".category-btn");
   if (!button) return;
 
-  categoryNav
-    .querySelectorAll(".category-btn")
-    .forEach((btn) => btn.classList.remove("active"));
-  button.classList.add("active");
+  activateCategory(button.dataset.category);
+}
 
-  filterMenuByCategory(button.dataset.category);
+function handleSubmenuClick(event) {
+  const link = event.target.closest(".submenu-link");
+  if (!link) return;
+
+  activateCategory(link.dataset.category);
 }
 
 renderCategoryNav();
 renderMenuItems();
 categoryNav.addEventListener("click", handleCategoryClick);
+document.querySelector(".submenu-list").addEventListener("click", handleSubmenuClick);

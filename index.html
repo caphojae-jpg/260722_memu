@@ -18,18 +18,15 @@
             <a href="#udon" class="main-menu-link" aria-haspopup="true">우동</a>
             <div class="submenu">
               <ul class="submenu-list">
-                <li><a href="#" class="submenu-link">따뜻한 우동</a></li>
-                <li><a href="#" class="submenu-link">차가운 메뉴</a></li>
-                <li><a href="#" class="submenu-link">식사류</a></li>
-                <li><a href="#" class="submenu-link">사이드메뉴</a></li>
+                <li><a href="#udon" class="submenu-link" data-category="warm">따뜻한 우동</a></li>
+                <li><a href="#udon" class="submenu-link" data-category="cold">차가운 메뉴</a></li>
+                <li><a href="#udon" class="submenu-link" data-category="meal">식사류</a></li>
+                <li><a href="#udon" class="submenu-link" data-category="side">사이드메뉴</a></li>
               </ul>
             </div>
           </li>
           <li class="main-menu-item">
             <a href="#story" class="main-menu-link">메뉴이야기</a>
-          </li>
-          <li class="main-menu-item">
-            <a href="#card" class="main-menu-link">카드</a>
           </li>
           <li class="main-menu-item">
             <a href="#franchise" class="main-menu-link">가맹문의</a>
@@ -39,9 +36,39 @@
     </div>
   </header>
 
-  <nav class="category-nav" id="categoryNav" aria-label="메뉴 카테고리"></nav>
+  <main>
+    <section id="udon" class="content-section" aria-label="우동 메뉴">
+      <nav class="category-nav" id="categoryNav" aria-label="메뉴 카테고리"></nav>
+      <div class="menu-container" id="menuContainer"></div>
+    </section>
 
-  <main class="menu-container" id="menuContainer"></main>
+    <section id="story" class="content-section">
+      <h2 class="section-title">메뉴이야기</h2>
+      <p class="section-placeholder">하루우동의 메뉴 이야기를 준비 중입니다.</p>
+    </section>
+
+    <section id="franchise" class="content-section">
+      <h2 class="section-title">가맹문의</h2>
+      <dl class="franchise-info">
+        <div class="franchise-info-row">
+          <dt>전화</dt>
+          <dd><a href="tel:1566-0368">1566-0368</a></dd>
+        </div>
+        <div class="franchise-info-row">
+          <dt>이메일</dt>
+          <dd><a href="mailto:miimfnb@naver.com">miimfnb@naver.com</a></dd>
+        </div>
+        <div class="franchise-info-row">
+          <dt>상담시간</dt>
+          <dd>09:00 ~ 20:00</dd>
+        </div>
+        <div class="franchise-info-row">
+          <dt>휴무</dt>
+          <dd>매주 토요일, 일요일</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
 
   <footer class="footer">
     <p>영업시간 안내 · 주소 · 연락처를 이 곳에 적어주세요.</p>
