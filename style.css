@@ -384,6 +384,11 @@ body {
   background: var(--color-primary);
 }
 
+.menu-badge--strong-recommended {
+  background: linear-gradient(135deg, #e65c28, #c0392b);
+  box-shadow: 0 2px 8px rgba(192, 57, 43, 0.25);
+}
+
 .menu-badge--new {
   background: var(--color-success);
 }

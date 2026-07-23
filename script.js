@@ -59,6 +59,9 @@ function createBadgeRow(item) {
   const badgeRow = document.createElement("div");
   badgeRow.className = "menu-badges";
 
+  if (item.stronglyRecommended) {
+    badgeRow.appendChild(createBadge("🔥 강력추천", "strong-recommended"));
+  }
   if (item.recommended) badgeRow.appendChild(createBadge("추천", "recommended"));
   if (item.new) badgeRow.appendChild(createBadge("New", "new"));
   if (item.soldOut) badgeRow.appendChild(createBadge("품절", "sold-out"));
