@@ -1,3 +1,11 @@
+const bannerSlides = [
+  { id: "banner-01", image: "images/하루우동_연출컷03.jpg", alt: "하루우동 매장 분위기 1" },
+  { id: "banner-02", image: "images/하루우동_연출컷04.jpg", alt: "하루우동 매장 분위기 2" },
+  { id: "banner-03", image: "images/하루우동_연출컷05.jpg", alt: "하루우동 매장 분위기 3" },
+  { id: "banner-04", image: "images/banner-04.jpg", alt: "준비중인 프로모션 배너 4" },
+  { id: "banner-05", image: "images/banner-05.jpg", alt: "준비중인 프로모션 배너 5" },
+];
+
 const categories = [
   { id: "warm", name: "따뜻한 우동", icon: "🔥", displayOrder: 1, visible: true },
   { id: "cold", name: "차가운 메뉴", icon: "❄️", displayOrder: 2, visible: true },

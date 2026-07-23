@@ -1,5 +1,8 @@
 const categoryNav = document.getElementById("categoryNav");
 const menuContainer = document.getElementById("menuContainer");
+const promoBannerTrack = document.getElementById("promoBannerTrack");
+
+const BANNER_INTERVAL_MS = 5000;
 
 function formatPrice(price) {
   return `${price.toLocaleString("ko-KR")}원`;
@@ -47,6 +50,38 @@ function createBadgeRow(item) {
 const MENU_IMAGE_PLACEHOLDER =
   "data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='100%25' height='100%25' fill='%23e7ddd0'/%3E%3Ctext x='50%25' y='50%25' font-family='sans-serif' font-size='20' text-anchor='middle' dominant-baseline='middle' fill='%238a7a6f'%3E이미지 준비중%3C/text%3E%3C/svg%3E";
 
+function createBannerSlide(slide, isActive) {
+  const image = document.createElement("img");
+  image.className = isActive ? "promo-banner-slide active" : "promo-banner-slide";
+  image.src = slide.image;
+  image.alt = slide.alt;
+  image.onerror = () => {
+    image.onerror = null;
+    image.src = MENU_IMAGE_PLACEHOLDER;
+  };
+  return image;
+}
+
+function renderPromoBanner() {
+  bannerSlides.forEach((slide, index) => {
+    promoBannerTrack.appendChild(createBannerSlide(slide, index === 0));
+  });
+}
+
+function startPromoBannerAutoplay() {
+  const slides = promoBannerTrack.querySelectorAll(".promo-banner-slide");
+  if (slides.length <= 1) return;
+
+  let activeIndex = 0;
+
+  setInterval(() => {
+    const nextIndex = (activeIndex + 1) % slides.length;
+    slides[activeIndex].classList.remove("active");
+    slides[nextIndex].classList.add("active");
+    activeIndex = nextIndex;
+  }, BANNER_INTERVAL_MS);
+}
+
 function createMenuImage(item) {
   const image = document.createElement("img");
   image.className = "menu-image";
@@ -64,6 +99,12 @@ function createMenuCard(item) {
   const card = document.createElement("section");
   card.className = item.soldOut ? "menu-item sold-out" : "menu-item";
   card.dataset.category = item.category;
+
+  const trigger = document.createElement("button");
+  trigger.type = "button";
+  trigger.className = "menu-item-trigger";
+  trigger.dataset.itemId = item.id;
+  trigger.setAttribute("aria-label", `${item.name} 상세보기`);
 
   const info = document.createElement("div");
   info.className = "menu-info";
@@ -84,7 +125,8 @@ function createMenuCard(item) {
   if (badgeRow.children.length > 0) info.appendChild(badgeRow);
   info.append(name, desc, price);
 
-  card.append(createMenuImage(item), info);
+  trigger.append(createMenuImage(item), info);
+  card.appendChild(trigger);
   return card;
 }
 
@@ -123,6 +165,8 @@ function handleSubmenuClick(event) {
   activateCategory(link.dataset.category);
 }
 
+renderPromoBanner();
+startPromoBannerAutoplay();
 renderCategoryNav();
 renderMenuItems();
 categoryNav.addEventListener("click", handleCategoryClick);
