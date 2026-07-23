@@ -3,6 +3,21 @@ const menuContainer = document.getElementById("menuContainer");
 const promoBannerTrack = document.getElementById("promoBannerTrack");
 
 const BANNER_INTERVAL_MS = 5000;
+const LIKE_STORAGE_KEY = "haru-udon-liked-menu-ids";
+
+function loadLikedMenuIds() {
+  try {
+    const savedIds = JSON.parse(localStorage.getItem(LIKE_STORAGE_KEY));
+    if (!Array.isArray(savedIds)) return new Set();
+
+    const menuItemIds = new Set(menuItems.map((item) => item.id));
+    return new Set(savedIds.filter((id) => menuItemIds.has(id)));
+  } catch {
+    return new Set();
+  }
+}
+
+const likedMenuIds = loadLikedMenuIds();
 
 function formatPrice(price) {
   return `${price.toLocaleString("ko-KR")}원`;
@@ -27,6 +42,10 @@ function renderCategoryNav() {
       const label = `${category.icon} ${category.name}`;
       categoryNav.appendChild(createCategoryButton(category.id, label, false));
     });
+
+  categoryNav.appendChild(
+    createCategoryButton("liked", `♥ 좋아요 (${likedMenuIds.size})`, false),
+  );
 }
 
 function createBadge(label, type) {
@@ -95,10 +114,43 @@ function createMenuImage(item) {
   return image;
 }
 
+function updateLikeButton(button, item) {
+  const isLiked = likedMenuIds.has(item.id);
+  button.classList.toggle("is-liked", isLiked);
+  button.setAttribute("aria-pressed", String(isLiked));
+  button.setAttribute(
+    "aria-label",
+    isLiked ? `${item.name} 좋아요 취소` : `${item.name} 좋아요`,
+  );
+
+  button.querySelector(".menu-like-icon").textContent = isLiked ? "♥" : "♡";
+  button.querySelector(".menu-like-label").textContent = isLiked ? "좋아요 완료" : "좋아요";
+}
+
+function createMenuLikeButton(item) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "menu-like-button";
+  button.dataset.itemId = item.id;
+
+  const icon = document.createElement("span");
+  icon.className = "menu-like-icon";
+  icon.setAttribute("aria-hidden", "true");
+
+  const label = document.createElement("span");
+  label.className = "menu-like-label";
+
+  button.append(icon, label);
+  updateLikeButton(button, item);
+  return button;
+}
+
 function createMenuCard(item) {
   const card = document.createElement("section");
   card.className = item.soldOut ? "menu-item sold-out" : "menu-item";
   card.dataset.category = item.category;
+  card.dataset.itemId = item.id;
+  card.classList.toggle("is-liked", likedMenuIds.has(item.id));
 
   const trigger = document.createElement("button");
   trigger.type = "button";
@@ -126,7 +178,7 @@ function createMenuCard(item) {
   info.append(name, desc, price);
 
   trigger.append(createMenuImage(item), info);
-  card.appendChild(trigger);
+  card.append(trigger, createMenuLikeButton(item));
   return card;
 }
 
@@ -139,9 +191,47 @@ function renderMenuItems() {
 function filterMenuByCategory(category) {
   const cards = menuContainer.querySelectorAll(".menu-item");
   cards.forEach((card) => {
-    const matches = category === "all" || card.dataset.category === category;
+    const matches =
+      category === "all" ||
+      card.dataset.category === category ||
+      (category === "liked" && likedMenuIds.has(card.dataset.itemId));
     card.classList.toggle("hidden", !matches);
   });
+}
+
+function updateLikedCategoryButton() {
+  const button = categoryNav.querySelector('[data-category="liked"]');
+  if (button) button.textContent = `♥ 좋아요 (${likedMenuIds.size})`;
+}
+
+function saveLikedMenuIds() {
+  try {
+    localStorage.setItem(LIKE_STORAGE_KEY, JSON.stringify([...likedMenuIds]));
+  } catch {
+    // 저장 공간을 사용할 수 없어도 현재 화면에서는 좋아요 기능을 유지합니다.
+  }
+}
+
+function handleMenuLikeClick(event) {
+  const button = event.target.closest(".menu-like-button");
+  if (!button) return;
+
+  const item = menuItems.find((menuItem) => menuItem.id === button.dataset.itemId);
+  if (!item) return;
+
+  if (likedMenuIds.has(item.id)) {
+    likedMenuIds.delete(item.id);
+  } else {
+    likedMenuIds.add(item.id);
+  }
+
+  saveLikedMenuIds();
+  updateLikeButton(button, item);
+  button.closest(".menu-item").classList.toggle("is-liked", likedMenuIds.has(item.id));
+  updateLikedCategoryButton();
+
+  const activeCategory = categoryNav.querySelector(".category-btn.active")?.dataset.category;
+  if (activeCategory === "liked") filterMenuByCategory("liked");
 }
 
 function activateCategory(category) {
@@ -170,4 +260,5 @@ startPromoBannerAutoplay();
 renderCategoryNav();
 renderMenuItems();
 categoryNav.addEventListener("click", handleCategoryClick);
+menuContainer.addEventListener("click", handleMenuLikeClick);
 document.querySelector(".submenu-list").addEventListener("click", handleSubmenuClick);

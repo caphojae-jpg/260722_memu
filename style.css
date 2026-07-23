@@ -256,17 +256,23 @@ body {
 }
 
 .menu-item {
+  position: relative;
   background: var(--color-surface);
   border-radius: var(--radius-md);
   overflow: hidden;
+  border: 1px solid transparent;
   box-shadow: var(--shadow-sm);
   transition: transform var(--transition-base), box-shadow var(--transition-base),
-    opacity var(--transition-base);
+    border-color var(--transition-base), opacity var(--transition-base);
 }
 
 .menu-item:hover {
   transform: translateY(-4px);
   box-shadow: var(--shadow-md);
+}
+
+.menu-item.is-liked {
+  border-color: rgba(192, 57, 43, 0.35);
 }
 
 .menu-item.hidden {
@@ -301,6 +307,51 @@ body {
 .menu-item-trigger:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+.menu-like-button {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px var(--space-3);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sm);
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: transform var(--transition-fast), background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.menu-like-button:hover {
+  transform: scale(1.04);
+  background: var(--color-surface);
+}
+
+.menu-like-button:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.menu-like-button.is-liked {
+  background: var(--color-error);
+  border-color: var(--color-error);
+  color: var(--color-text-inverse);
+}
+
+.menu-like-icon {
+  font-size: 1.15rem;
+  line-height: 1;
 }
 
 .menu-image {
