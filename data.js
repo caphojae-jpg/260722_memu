@@ -2,8 +2,8 @@ const bannerSlides = [
   { id: "banner-01", image: "images/하루우동_연출컷03.jpg", alt: "하루우동 매장 분위기 1" },
   { id: "banner-02", image: "images/하루우동_연출컷04.jpg", alt: "하루우동 매장 분위기 2" },
   { id: "banner-03", image: "images/하루우동_연출컷05.jpg", alt: "하루우동 매장 분위기 3" },
-  { id: "banner-04", image: "images/banner-04.jpg", alt: "준비중인 프로모션 배너 4" },
-  { id: "banner-05", image: "images/banner-05.jpg", alt: "준비중인 프로모션 배너 5" },
+  { id: "banner-04", image: "images/하루우동_연출컷06.jpg", alt: "하루우동 매장 분위기 4" },
+  { id: "banner-05", image: "images/하루우동_연출컷07.jpg", alt: "하루우동 매장 분위기 5" },
 ];
 
 const categories = [
@@ -20,7 +20,7 @@ const menuItems = [
     category: "warm",
     description: "하루우동의 기본이 되는 담백한 우동입니다.",
     price: 7500,
-    image: "images/placeholder.svg",
+    image: "images/하루우동.jpg",
     recommended: false,
     new: false,
     soldOut: false,
