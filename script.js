@@ -1,6 +1,8 @@
 const categoryNav = document.getElementById("categoryNav");
 const menuContainer = document.getElementById("menuContainer");
 const promoBannerTrack = document.getElementById("promoBannerTrack");
+const franchiseForm = document.getElementById("franchiseForm");
+const franchiseFormStatus = document.getElementById("franchiseFormStatus");
 
 const BANNER_INTERVAL_MS = 5000;
 const LIKE_STORAGE_KEY = "haru-udon-liked-menu-ids";
@@ -258,6 +260,18 @@ function handleSubmenuClick(event) {
   activateCategory(link.dataset.category);
 }
 
+function handleFranchiseFormSubmit(event) {
+  event.preventDefault();
+
+  if (!franchiseForm.reportValidity()) return;
+
+  const name = franchiseForm.name.value.trim();
+
+  franchiseFormStatus.textContent = `${name}님, 상담 신청이 접수되었습니다. 입력하신 연락처로 순차적으로 연락드리겠습니다.`;
+  franchiseFormStatus.hidden = false;
+  franchiseForm.reset();
+}
+
 renderPromoBanner();
 startPromoBannerAutoplay();
 renderCategoryNav();
@@ -265,3 +279,4 @@ renderMenuItems();
 categoryNav.addEventListener("click", handleCategoryClick);
 menuContainer.addEventListener("click", handleMenuLikeClick);
 document.querySelector(".submenu-list").addEventListener("click", handleSubmenuClick);
+franchiseForm.addEventListener("submit", handleFranchiseFormSubmit);

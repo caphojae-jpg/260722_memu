@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>하루우동 | 메뉴</title>
-<link rel="stylesheet" href="style.css?v=20260724-7">
+<link rel="stylesheet" href="style.css?v=20260724-8">
 </head>
 <body>
 
@@ -79,6 +79,31 @@
           <dd>매주 토요일, 일요일</dd>
         </div>
       </dl>
+
+      <form class="franchise-form" id="franchiseForm" novalidate>
+        <div class="form-field">
+          <label for="franchiseName">이름</label>
+          <input type="text" id="franchiseName" name="name" autocomplete="name" required>
+        </div>
+
+        <div class="form-field">
+          <label for="franchiseRegion">창업희망지역</label>
+          <input type="text" id="franchiseRegion" name="region" placeholder="예: 서울 강남구" required>
+        </div>
+
+        <div class="form-field">
+          <label for="franchisePhone">전화번호</label>
+          <input type="tel" id="franchisePhone" name="phone" autocomplete="tel" placeholder="010-0000-0000" required>
+        </div>
+
+        <div class="form-field">
+          <label for="franchiseTime">연락 가능한 시간</label>
+          <input type="text" id="franchiseTime" name="contactTime" placeholder="예: 평일 오후 2시~6시">
+        </div>
+
+        <button type="submit" class="franchise-form-submit">상담 신청하기</button>
+        <p class="franchise-form-status" id="franchiseFormStatus" role="status" aria-live="polite" hidden></p>
+      </form>
     </section>
   </main>
 
@@ -89,8 +114,8 @@
   <div class="menu-modal-overlay" id="menuModalOverlay" hidden></div>
 
 <script src="js/jquery-4.0.0.min.js"></script>
-<script src="data.js?v=20260724-7"></script>
-<script src="script.js?v=20260724-7"></script>
-<script src="js/menu-modal.js?v=20260724-7"></script>
+<script src="data.js?v=20260724-8"></script>
+<script src="script.js?v=20260724-8"></script>
+<script src="js/menu-modal.js?v=20260724-8"></script>
 </body>
 </html>
