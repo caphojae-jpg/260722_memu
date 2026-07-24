@@ -20,7 +20,7 @@ const menuItems = [
     category: "warm",
     description: "하루우동의 기본이 되는 담백한 우동입니다.",
     price: 7500,
-    image: "images/placeholder.svg",
+    image: "images/하루우동.jpg",
     recommended: false,
     new: false,
     soldOut: false,
