@@ -1,12 +1,17 @@
 const categoryNav = document.getElementById("categoryNav");
 const menuContainer = document.getElementById("menuContainer");
 const promoBannerTrack = document.getElementById("promoBannerTrack");
+const promoBannerPrevButton = document.getElementById("promoBannerPrev");
+const promoBannerNextButton = document.getElementById("promoBannerNext");
 const franchiseForm = document.getElementById("franchiseForm");
 const franchiseFormStatus = document.getElementById("franchiseFormStatus");
+const franchiseNavLink = document.getElementById("franchiseNavLink");
+const backToTopButton = document.getElementById("backToTop");
 
 const BANNER_INTERVAL_MS = 5000;
 const LIKE_STORAGE_KEY = "haru-udon-liked-menu-ids";
 const FRANCHISE_CONTACT_EMAIL = "caphojae@gmail.com";
+const BACK_TO_TOP_SCROLL_THRESHOLD = 400;
 
 function loadLikedMenuIds() {
   try {
@@ -93,18 +98,41 @@ function renderPromoBanner() {
   });
 }
 
+let promoBannerActiveIndex = 0;
+let promoBannerIntervalId = null;
+
+function showPromoBannerSlide(index) {
+  const slides = promoBannerTrack.querySelectorAll(".promo-banner-slide");
+  if (slides.length === 0) return;
+
+  const nextIndex = (index + slides.length) % slides.length;
+  slides[promoBannerActiveIndex].classList.remove("active");
+  slides[nextIndex].classList.add("active");
+  promoBannerActiveIndex = nextIndex;
+}
+
 function startPromoBannerAutoplay() {
   const slides = promoBannerTrack.querySelectorAll(".promo-banner-slide");
   if (slides.length <= 1) return;
 
-  let activeIndex = 0;
-
-  setInterval(() => {
-    const nextIndex = (activeIndex + 1) % slides.length;
-    slides[activeIndex].classList.remove("active");
-    slides[nextIndex].classList.add("active");
-    activeIndex = nextIndex;
+  promoBannerIntervalId = setInterval(() => {
+    showPromoBannerSlide(promoBannerActiveIndex + 1);
   }, BANNER_INTERVAL_MS);
+}
+
+function restartPromoBannerAutoplay() {
+  clearInterval(promoBannerIntervalId);
+  startPromoBannerAutoplay();
+}
+
+function handlePromoBannerPrevClick() {
+  showPromoBannerSlide(promoBannerActiveIndex - 1);
+  restartPromoBannerAutoplay();
+}
+
+function handlePromoBannerNextClick() {
+  showPromoBannerSlide(promoBannerActiveIndex + 1);
+  restartPromoBannerAutoplay();
 }
 
 function createMenuImage(item) {
@@ -291,6 +319,26 @@ function handleFranchiseFormSubmit(event) {
   franchiseForm.reset();
 }
 
+function handleFranchiseNavClick() {
+  franchiseForm.hidden = false;
+}
+
+let backToTopTicking = false;
+
+function handleWindowScroll() {
+  if (backToTopTicking) return;
+
+  backToTopTicking = true;
+  requestAnimationFrame(() => {
+    backToTopButton.hidden = window.scrollY <= BACK_TO_TOP_SCROLL_THRESHOLD;
+    backToTopTicking = false;
+  });
+}
+
+function handleBackToTopClick() {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
 renderPromoBanner();
 startPromoBannerAutoplay();
 renderCategoryNav();
@@ -299,3 +347,8 @@ categoryNav.addEventListener("click", handleCategoryClick);
 menuContainer.addEventListener("click", handleMenuLikeClick);
 document.querySelector(".submenu-list").addEventListener("click", handleSubmenuClick);
 franchiseForm.addEventListener("submit", handleFranchiseFormSubmit);
+franchiseNavLink.addEventListener("click", handleFranchiseNavClick);
+promoBannerPrevButton.addEventListener("click", handlePromoBannerPrevClick);
+promoBannerNextButton.addEventListener("click", handlePromoBannerNextClick);
+backToTopButton.addEventListener("click", handleBackToTopClick);
+window.addEventListener("scroll", handleWindowScroll);

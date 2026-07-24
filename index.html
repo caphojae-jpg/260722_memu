@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>하루우동 | 메뉴</title>
-<link rel="stylesheet" href="style.css?v=20260724-9">
+<link rel="stylesheet" href="style.css?v=20260724-10">
 </head>
 <body>
 
@@ -31,7 +31,7 @@
             <a href="#story" class="main-menu-link">메뉴이야기</a>
           </li>
           <li class="main-menu-item">
-            <a href="#franchise" class="main-menu-link">가맹문의</a>
+            <a href="#franchise" class="main-menu-link" id="franchiseNavLink">가맹문의</a>
           </li>
         </ul>
       </nav>
@@ -40,6 +40,8 @@
 
   <section class="promo-banner" id="promoBanner" aria-label="프로모션 배너">
     <div class="promo-banner-track" id="promoBannerTrack"></div>
+    <button type="button" class="promo-banner-arrow promo-banner-arrow--prev" id="promoBannerPrev" aria-label="이전 배너">‹</button>
+    <button type="button" class="promo-banner-arrow promo-banner-arrow--next" id="promoBannerNext" aria-label="다음 배너">›</button>
   </section>
 
   <main>
@@ -80,7 +82,7 @@
         </div>
       </dl>
 
-      <form class="franchise-form" id="franchiseForm" novalidate>
+      <form class="franchise-form" id="franchiseForm" novalidate hidden>
         <div class="form-field">
           <label for="franchiseName">이름</label>
           <input type="text" id="franchiseName" name="name" autocomplete="name" required>
@@ -113,9 +115,11 @@
 
   <div class="menu-modal-overlay" id="menuModalOverlay" hidden></div>
 
+  <button type="button" class="back-to-top" id="backToTop" aria-label="맨 위로 이동" hidden>↑</button>
+
 <script src="js/jquery-4.0.0.min.js"></script>
-<script src="data.js?v=20260724-9"></script>
-<script src="script.js?v=20260724-9"></script>
-<script src="js/menu-modal.js?v=20260724-9"></script>
+<script src="data.js?v=20260724-10"></script>
+<script src="script.js?v=20260724-10"></script>
+<script src="js/menu-modal.js?v=20260724-10"></script>
 </body>
 </html>
