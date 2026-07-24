@@ -6,6 +6,7 @@ const franchiseFormStatus = document.getElementById("franchiseFormStatus");
 
 const BANNER_INTERVAL_MS = 5000;
 const LIKE_STORAGE_KEY = "haru-udon-liked-menu-ids";
+const FRANCHISE_CONTACT_EMAIL = "caphojae@gmail.com";
 
 function loadLikedMenuIds() {
   try {
@@ -260,14 +261,32 @@ function handleSubmenuClick(event) {
   activateCategory(link.dataset.category);
 }
 
+function buildFranchiseMailtoUrl(form) {
+  const name = form.name.value.trim();
+  const region = form.region.value.trim();
+  const phone = form.phone.value.trim();
+  const contactTime = form.contactTime.value.trim() || "미입력";
+
+  const subject = `[가맹문의] ${name}님 상담 신청`;
+  const body = [
+    `이름: ${name}`,
+    `창업희망지역: ${region}`,
+    `전화번호: ${phone}`,
+    `연락 가능한 시간: ${contactTime}`,
+  ].join("\n");
+
+  return `mailto:${FRANCHISE_CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 function handleFranchiseFormSubmit(event) {
   event.preventDefault();
 
   if (!franchiseForm.reportValidity()) return;
 
-  const name = franchiseForm.name.value.trim();
+  window.location.href = buildFranchiseMailtoUrl(franchiseForm);
 
-  franchiseFormStatus.textContent = `${name}님, 상담 신청이 접수되었습니다. 입력하신 연락처로 순차적으로 연락드리겠습니다.`;
+  franchiseFormStatus.textContent =
+    "메일 작성 화면이 열립니다. 내용을 확인하신 후 '보내기'를 눌러야 상담 신청이 접수됩니다.";
   franchiseFormStatus.hidden = false;
   franchiseForm.reset();
 }
