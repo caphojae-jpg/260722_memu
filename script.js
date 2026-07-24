@@ -5,7 +5,7 @@ const promoBannerPrevButton = document.getElementById("promoBannerPrev");
 const promoBannerNextButton = document.getElementById("promoBannerNext");
 const franchiseForm = document.getElementById("franchiseForm");
 const franchiseFormStatus = document.getElementById("franchiseFormStatus");
-const franchiseNavLink = document.getElementById("franchiseNavLink");
+const franchiseFormToggle = document.getElementById("franchiseFormToggle");
 const backToTopButton = document.getElementById("backToTop");
 
 const BANNER_INTERVAL_MS = 5000;
@@ -319,7 +319,7 @@ function handleFranchiseFormSubmit(event) {
   franchiseForm.reset();
 }
 
-function handleFranchiseNavClick() {
+function handleFranchiseFormToggleClick() {
   franchiseForm.hidden = false;
 }
 
@@ -347,7 +347,7 @@ categoryNav.addEventListener("click", handleCategoryClick);
 menuContainer.addEventListener("click", handleMenuLikeClick);
 document.querySelector(".submenu-list").addEventListener("click", handleSubmenuClick);
 franchiseForm.addEventListener("submit", handleFranchiseFormSubmit);
-franchiseNavLink.addEventListener("click", handleFranchiseNavClick);
+franchiseFormToggle.addEventListener("click", handleFranchiseFormToggleClick);
 promoBannerPrevButton.addEventListener("click", handlePromoBannerPrevClick);
 promoBannerNextButton.addEventListener("click", handlePromoBannerNextClick);
 backToTopButton.addEventListener("click", handleBackToTopClick);
